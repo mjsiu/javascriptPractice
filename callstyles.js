@@ -9,15 +9,32 @@ var Dog = function(name, age) {
 };
 
 Cat.prototype.stats = function () {
-  return "Name: " + name + " " + "Age: " + age;
+  console.log("Name: " + this.name + " " + "Age: " + this.age);
 };
 
 Dog.prototype.woof = function () {
   console.log("Woof");
 };
 
-var jeff = new Cat(jeff, 50);
+function doThreeTimes(callback) {
+  for (var i = 0; i <= 2; i++) {
+    callback();
+  }
+}
+
+var jeff = new Cat("Jeff", 50);
 var array = [1,2,3,4];
+
+// Doesn't work, this === global
+doThreeTimes(jeff.stats)
+
+// All work, this === jeff
+doThreeTimes(function () {
+  jeff.stats();
+});
+doThreeTimes(jeff.stats.bind(jeff));
+doThreeTimes(Cat.prototype.stats.bind(jeff));
+
 
 // 1. function style
 function log(cat) {
@@ -41,7 +58,6 @@ var Jabby = new Cat("Jabby", 10);
 
 // this === jeff
 log.apply(jeff);
-
 // this === jeff
 log.call(jeff);
 
