@@ -1,5 +1,6 @@
 var Student = function (firstname, lastname) {
-  this.name = firstname + " " + lastname;
+  this.fname = firstname;
+  this.lastname = lastname;
   this.courses = [];
 }
 
@@ -10,6 +11,10 @@ var Course = function (name, department, credits) {
   this.students = [];
 }
 
+Student.prototype.name = function () {
+  return (this.firstname + " " + this.lastname);
+};
+
 Student.prototype.enroll = function (course) {
   this.courses.push(course);
 
@@ -17,23 +22,33 @@ Student.prototype.enroll = function (course) {
     course.students.push(this);
   }
 };
+//
+// Student.prototype.courseLoad = function () {
+//   var load = {};
+//
+//   this.courses.forEach(function (course){
+//     for (var keys in load){
+//       if (load.hasOwnProperty(course.department) === -1) {
+//         load[department] = 0;
+//       }
+//     }
+//   })
+//
+//   this.courses.forEach(function (course) {
+//     load[course.departmet] += course.credits;
+//   })
+//
+//   return load;
+// };
 
 Student.prototype.courseLoad = function () {
-  var load = {};
-
-  this.courses.forEach(function (course){
-    for (var keys in load){
-      if !(load.hasOwnProperty(course.department)) {
-        load[department] = 0;
-      }
-    }
-  })
-
+  var courseLoad = {};
   this.courses.forEach(function (course) {
-    load[course.departmet] += course.credits;
-  })
-
-  return load;
+    var dpt = course.department;
+    courseLoad[dpt] = courseLoad[dpt] || 0;
+    courseLoad[dpt] += course.credits;
+  });
+  return courseLoad;
 };
 
 Course.prototype.addStudent = function (student) {
@@ -51,6 +66,6 @@ var compintro = new Course("Compintro", "CompSci", 3);
 mack.enroll(math101);
 mack.enroll(econ101);
 mack.enroll(compsci101);
-compintro.enroll(mack);
+compintro.addStudent(mack);
 
 console.log(mack.courseLoad());
