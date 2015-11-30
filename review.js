@@ -59,3 +59,23 @@ console.log(mergeSort([4,3,1,5,2], function(num1, num2) {
 console.log(mergeSort([4,3,1,5,2], function(num1, num2) {
   return num2 < num1;
 }));
+
+function binarySearch(array, target) {
+  if (array.length === 0) {
+    return -1;
+  }
+
+  var half = Math.floor(array.length / 2);
+
+  if (array[half] === target) {
+    return half;
+  } else if (array[half] > target) {
+    return binarySearch(array.slice(0, half), target);
+  } else {
+    var partial = binarySearch(array.slice(half+1), target);
+    return partial === -1 ? -1 : partial + (half + 1);
+  }
+}
+
+console.log(binarySearch([1,2,3,4,5], 5));
+console.log(binarySearch([1,2,3,4,5], 2));
